@@ -6,19 +6,15 @@
 
 ```nix
 let
-  nvim = import (fetchTarball {
-    url = "https://github.com/TimothyKlim/nvim-flake/archive/1a754c846419fa0a9128d8755fffb9419103c11c.tar.gz";
-    sha256 = "sha256:0y4qcy313vsa9qgx8cizxn2vw72cgl05ynna1gyz0m8n13nzw7kc";
+  mysql-fb = import (fetchTarball {
+    url = "https://github.com/TimothyKlim/mysql-fb-flake/archive/483181b59a792df0439cb0b971b3ea0f34394f3a.tar.gz";
+    sha256 = "1sxx8hjvhbixkkz5y813mahcglrlm0l8hfm6wql1srqv8wn1fa39";
   }) {};
 # ...
 in
 {
 # ...
-  environment.systemPackages = [
-    nvim
-    # ...
-  ];
+  services.mysql.package = mysql-fb;
 # ...
 }
 ```
-
