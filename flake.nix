@@ -100,7 +100,7 @@
           "-DWITH_UNIT_TESTS=OFF"
 
           "-DMYSQL_UNIX_ADDR=/run/mysqld/mysqld.sock"
-          "-DMYSQL_DATADIR=/var/lib/mysql"
+          "-DMYSQL_DATADIR=/var/mysql"
           "-DINSTALL_INFODIR=share/mysql/docs"
           "-DINSTALL_MANDIR=share/man"
           "-DINSTALL_PLUGINDIR=lib/mysql/plugin"
