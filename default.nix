@@ -1,4 +1,3 @@
-{ ... }:
 let
   flake-compat = import
     (
@@ -11,9 +10,5 @@ let
       }
     );
   flake = flake-compat { src = ./.; };
-  maybe = c:
-    let result = builtins.tryEval c; in if result.success then result.value else { };
 in
-{ inherit flake-compat flake; self = flake.defaultNix; }
-// maybe flake.defaultNix
-  // maybe flake.defaultNix.defaultPackage.${builtins.currentSystem}
+flake.defaultNix
