@@ -80,8 +80,6 @@ let
       "-DCMAKE_SKIP_BUILD_RPATH=OFF" # To run libmysql/libmysql_api_test during build.
       "-DWITH_UNIT_TESTS=OFF"
 
-      "-DCOMPILATION_COMMENT_SERVER="
-      "-DCOMPILATION_COMMENT="
       "-DINSTALL_DOCDIR=share/mysql/docs"
       "-DINSTALL_DOCREADMEDIR=share/mysql"
       "-DINSTALL_INCLUDEDIR=include/mysql"

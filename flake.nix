@@ -1,5 +1,5 @@
 {
-  description = "MySQL FB (RocksDB) flake";
+  description = "MySQL (MyRocks) flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -26,23 +26,17 @@
         inherit pkgs rocksdb-src mysql-src;
         version = sources.mysql-src.original.ref;
       };
-      mkApp = drv: {
-        type = "app";
-        program = "${drv.pname or drv.name}${drv.passthru.exePath}";
-      };
       derivation = { inherit mysql-fb; };
     in
     with pkgs; rec {
       packages.${system} = derivation;
       defaultPackage.${system} = mysql-fb;
-      apps.${system}.mysql-fb = mkApp { drv = mysql-fb; };
-      defaultApp.${system} = apps.mysql-fb;
       legacyPackages.${system} = extend overlay;
-      devShell.${system} = callPackage ./shell.nix derivation;
+      devShell.${system} = pkgs.mkShell {
+        name = "mysql-fb-env";
+        buildInputs = [ mysql-fb ];
+      };
       nixosModule = {
-        # imports = [
-        #   ./configuration.nix
-        # ];
         nixpkgs.overlays = [ overlay ];
         services.mysql.package = lib.mkDefault mysql-fb;
       };
