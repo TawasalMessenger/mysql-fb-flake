@@ -21,30 +21,28 @@
     let
       sources = with builtins; (fromJSON (readFile ./flake.lock)).nodes;
       version = "8.0.20"; # sources.mysql-src.original.ref;
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+      mysql-fb = import ./build.nix {
+        inherit pkgs rocksdb-src mysql-src version;
+      };
+      mysql-fb-app = flake-utils.lib.mkApp { drv = mysql-fb; };
+      derivation = { inherit mysql-fb; };
     in
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-        mysql-fb = import ./build.nix {
-          inherit pkgs rocksdb-src mysql-src version;
-        };
-        mysql-fb-app = flake-utils.lib.mkApp { drv = mysql-fb; };
-        derivation = { inherit mysql-fb; };
-      in
-      with pkgs; rec {
-        packages = derivation;
-        defaultPackage = mysql-fb;
-        apps.mysql-fb = mysql-fb-app;
-        defaultApp = mysql-fb-app;
-        legacyPackages = extend overlay;
-        devShell = pkgs.mkShell {
-          name = "mysql-fb-env";
-          buildInputs = [ mysql-fb ];
-        };
-        nixosModule = {
-          nixpkgs.overlays = [ overlay ];
-          services.mysql.package = lib.mkDefault mysql-fb;
-        };
-        overlay = final: prev: derivation;
-      });
+    with pkgs; rec {
+      packages.${system} = derivation;
+      defaultPackage.${system} = mysql-fb;
+      apps.${system}.mysql-fb = mysql-fb-app;
+      defaultApp.${system} = mysql-fb-app;
+      legacyPackages.${system} = extend overlay;
+      devShell.${system} = pkgs.mkShell {
+        name = "mysql-fb-env";
+        buildInputs = [ mysql-fb ];
+      };
+      nixosModule = {
+        nixpkgs.overlays = [ overlay ];
+        services.mysql.package = lib.mkDefault mysql-fb;
+      };
+      overlay = final: prev: derivation;
+    };
 }
