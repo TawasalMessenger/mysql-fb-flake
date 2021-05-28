@@ -1,0 +1,30 @@
+diff --git a/sql/mysqld.cc b/sql/mysqld.cc
+index 739b4da63b8..f5a4d4c4d55 100644
+--- a/sql/mysqld.cc
++++ b/sql/mysqld.cc
+@@ -852,6 +852,13 @@ inline void setup_fpu() {
+ #endif /* __i386__ */
+ }
+ 
++#ifndef TRUE
++
++#define TRUE 1
++#define FALSE 0
++
++#endif
++
+ extern "C" void handle_fatal_signal(int sig);
+ 
+ /* Constants */
+diff --git a/storage/rocksdb/CMakeLists.txt b/storage/rocksdb/CMakeLists.txt
+index 3fc21fb97cc..68c2a2e298f 100644
+--- a/storage/rocksdb/CMakeLists.txt
++++ b/storage/rocksdb/CMakeLists.txt
+@@ -11,6 +11,7 @@ ENDIF()
+ IF(HAVE_EXTERNAL_ROCKSDB)
+   MESSAGE(STATUS "MyRocks: Using external RocksDB")
+   SET(ROCKSDB_ROOT ${ROCKSDB_SRC_PATH})
++  SET(ROCKSDB_SOURCES ${ROCKSDB_SRC_PATH})
+ ELSE()
+   MESSAGE(STATUS "MyRocks: Using local RocksDB")
+ 

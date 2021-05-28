@@ -1,7 +1,7 @@
 { pkgs, mysql-src, rocksdb-src, version }:
 
 with pkgs;
-with gcc9Stdenv;
+with stdenv;
 let
   rocksdb = mkDerivation rec {
     name = "rocksdb";
@@ -55,7 +55,7 @@ let
       libtirpc
 
       bash
-      boost169
+      boost170
       coreutils
       gnumake
       libaio
@@ -66,6 +66,10 @@ let
     ];
 
     outputs = [ "out" "static" ];
+
+    patches = [
+      ./patches/nixos.patch
+    ];
 
     cmakeFlags = [
       "-DCMAKE_BUILD_TYPE=Release"
