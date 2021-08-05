@@ -2,7 +2,7 @@
   description = "MySQL (MyRocks) flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/staging-21.05";
     flake-utils.url = "github:numtide/flake-utils";
     rocksdb-src = {
       url = "github:facebook/rocksdb/0f8c041ea7bb458caa5ec0dbeef9fa42d0b97482";
